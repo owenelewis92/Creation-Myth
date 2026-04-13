@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>About — Creation Myth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="about-page">
+
+  <header>
+    <h1>Creation Myth</h1>
+    <p class="top-text"><a href="index.html">Work</a></p>
+  </header>
+
+  <main class="about">
+    <p>
+      <span class="sym">⟿</span> A place for ongoing exploration
+      <span class="sym">⏿</span> tests
+      <span class="sym">🜸</span> notes
+      <span class="sym">♫</span> & fragments
+      <span class="sym">𐚬</span> It collects experiments
+      <span class="sym">꩜</span> in graphic design
+      <span class="sym">⌘</span> across publishing
+      <span class="sym">🕮</span> identity
+      <span class="sym">☯</span> exhibition
+      <span class="sym">🖾</span> & systems
+      <span class="sym">♖</span>
+
+      <span class="sym">❶</span> Digital
+      <span class="sym">❷</span> analog
+      <span class="sym">❸</span> formless
+      <span class="sym">✳</span><br><br>
+
+      <span class="sym">→</span> Projects are treated as research
+      <span class="sym">∞</span>
+
+      <span class="sym">→</span> Outcomes stay flexible
+      <span class="sym">🕊</span>
+
+      <span class="sym">→</span> Process stays visible
+      <span class="sym">🝏</span>
+
+      The focus is on how design carries ideas
+      <span class="sym">⊗</span>
+      How structure shapes meaning
+      <span class="sym">⬔</span>
+      How tools suggest form
+      <span class="sym">⟂</span>
+      This is not a studio and nor an archive
+      <span class="sym">⌘</span>
+
+      It’s a working space
+      <span class="sym">◻</span>
+
+      to be continued
+      <span class="sym">⟲</span>
+    </p>
+  </main>
+
+  <footer class="contact-footer">
+    <p><a href="mailto:you@email.com">you@email.com</a></p>
+  </footer>
+
+  <a class="corner-link" href="https://www.youtube.com/watch?v=JekUNGo-RVk" target="_blank" rel="noopener">
+    <img src="icon.png" alt="" class="corner-icon">
+  </a>
+
+  <script>
+    // Symbols recolour loop
+    const colors = [
+      "rgb(255, 0, 0)",
+      "rgb(0, 255, 0)",
+      "rgb(0, 0, 255)",
+      "rgb(0, 255, 255)",
+      "rgb(255, 0, 255)",
+      "rgb(255, 255, 0)"
+    ];
+
+    const symbols = document.querySelectorAll(".sym");
+
+    function recolorSymbols() {
+      symbols.forEach(sym => {
+        sym.style.color = colors[Math.floor(Math.random() * colors.length)];
+      });
+    }
+
+    recolorSymbols();
+    setInterval(recolorSymbols, 2000);
+
+    // Corner icon hover/tap variants
+    const icon = document.querySelector(".corner-icon");
+    const variants = ["icon-r.png","icon-g.png","icon-b.png","icon-c.png","icon-m.png","icon-y.png"];
+    let last = null;
+
+    function pickNewIcon() {
+      let pick = last;
+      while (pick === last) {
+        pick = variants[Math.floor(Math.random() * variants.length)];
+      }
+      last = pick;
+      icon.src = pick;
+    }
+
+    if (icon) {
+      icon.addEventListener("mouseenter", pickNewIcon);
+      icon.addEventListener("mouseleave", () => { icon.src = "icon.png"; });
+      icon.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        pickNewIcon();
+      }, { passive: false });
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Creation Myth</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+
+  <header>
+    <h1>Creation Myth</h1>
+    <p class="top-text"><a href="about.html">About</a></p>
+  </header>
+
+  <main id="stage" aria-label="Slideshow. Click left for previous, right for next.">
+    <button class="zone left" type="button" aria-label="Previous image"></button>
+    <button class="zone right" type="button" aria-label="Next image"></button>
+    <img id="slide" src="" alt="" />
+  </main>
+
+  <footer>
+    <p id="workTitle"></p>
+  </footer>
+
+  <!-- Corner icon link -->
+  <a class="corner-link" href="https://www.youtube.com/watch?v=JekUNGo-RVk" target="_blank" rel="noopener">
+    <img src="icon.png" alt="" class="corner-icon">
+  </a>
+
+  <!-- Custom cursor label -->
+  <div id="cursor-label" aria-hidden="true"></div>
+
+  <script>
+    // ONLY EDIT THIS LIST TO ADD IMAGES
+    const slides = [
+      { src: "images/11.png", title: "Creation Myth, 2026" },
+      { src: "images/10.png", title: "Creation Myth, 2026" },
+      { src: "images/09.png", title: "Creation Myth, 2026" },
+      { src: "images/04.png", title: "Errors Publishing, 2024" },
+      { src: "images/07.png", title: "Creation Myth, 2026" },
+      { src: "images/08.png", title: "Creation Myth, 2026" }
+    ];
+
+    // Shuffle helper (Fisher–Yates)
+    function shuffleArray(array) {
+      for (let j = array.length - 1; j > 0; j--) {
+        const k = Math.floor(Math.random() * (j + 1));
+        [array[j], array[k]] = [array[k], array[j]];
+      }
+    }
+
+    let i = 0;
+
+    const stage = document.getElementById("stage");
+    const img = document.getElementById("slide");
+    const title = document.getElementById("workTitle");
+
+    function showSlide(index) {
+      img.src = slides[index].src;
+      title.textContent = slides[index].title;
+    }
+
+    function nextSlide() {
+      i = (i + 1) % slides.length;
+      showSlide(i);
+    }
+
+    function prevSlide() {
+      i = (i - 1 + slides.length) % slides.length;
+      showSlide(i);
+    }
+
+    // Shuffle on reload, then start
+    shuffleArray(slides);
+    showSlide(i);
+
+    // Controls
+    document.querySelector(".zone.left").addEventListener("click", prevSlide);
+    document.querySelector(".zone.right").addEventListener("click", nextSlide);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight") nextSlide();
+      if (e.key === "ArrowLeft") prevSlide();
+    });
+
+    // Corner icon: swap PNGs on hover (RGB + CMY)
+    const icon = document.querySelector(".corner-icon");
+    const variants = ["icon-r.png","icon-g.png","icon-b.png","icon-c.png","icon-m.png","icon-y.png"];
+    let last = null;
+
+    function pickNewIcon() {
+      let pick = last;
+      while (pick === last) {
+        pick = variants[Math.floor(Math.random() * variants.length)];
+      }
+      last = pick;
+      icon.src = pick;
+    }
+
+    if (icon) {
+      icon.addEventListener("mouseenter", pickNewIcon);
+      icon.addEventListener("mouseleave", () => { icon.src = "icon.png"; });
+      icon.addEventListener("touchstart", (e) => {
+        e.preventDefault();
+        pickNewIcon();
+      }, { passive: false });
+    }
+
+    // Custom cursor label (desktop only)
+    const cursorLabel = document.getElementById("cursor-label");
+    const hasFinePointer = window.matchMedia("(pointer: fine)").matches;
+
+    if (hasFinePointer && stage && cursorLabel) {
+      stage.addEventListener("mousemove", (e) => {
+        const rect = stage.getBoundingClientRect();
+        const x = e.clientX;
+        const y = e.clientY;
+
+        cursorLabel.style.left = x + "px";
+        cursorLabel.style.top = y + "px";
+        cursorLabel.style.opacity = "1";
+
+        if (x < rect.left + rect.width / 2) {
+          cursorLabel.textContent = "← Prev";
+        } else {
+          cursorLabel.textContent = "Next →";
+        }
+      });
+
+      stage.addEventListener("mouseleave", () => {
+        cursorLabel.style.opacity = "0";
+      });
+    }
+  </script>
+
+</body>
+</html>
